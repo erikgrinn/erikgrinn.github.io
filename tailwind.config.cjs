@@ -59,7 +59,10 @@ module.exports = {
                         img: {
                             // width: '750px',
                             // height: '750px',
+                            // maxWidth: '100%',
+                            // height: 'auto'
                             margin: '0 auto',
+
                         },
                         blockquote: {
                             border: 0,

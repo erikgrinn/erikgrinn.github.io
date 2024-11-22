@@ -1,7 +1,7 @@
 ---
 title: Basic HTML
 excerpt: My first public website utilizing basic HTML was a list of three recipes. No CSS. No JavaScript. No React. Every <li> painstakingly manufactured for each item. Can you imagine?
-publishDate: 'Nov 22 2024'
+publishDate: 'Nov 21 2024'
 isFeatured: true
 tags:
   - HTML
