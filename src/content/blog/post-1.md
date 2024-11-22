@@ -13,6 +13,6 @@ seo:
 
 ![Power button](/post-1.jpg)
 
-[recipes](https://erikgrinn.github.io/odin-recipes/)
+<a href="https://erikgrinn.github.io/odin-recipes/" target="_blank">recipes</a>
 
 My first public website utilizing basic HTML was a list of three recipes. No CSS. No JavaScript. No React. Every \<li> painstakingly manufactured for each item. Can you imagine?
