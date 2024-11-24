@@ -9,10 +9,13 @@ tags:
 seo:
   image:
     src: '/post-2.jpg'
-    alt: Landing page
+    alt: Eagle staring directly at you
 ---
 
-![Landing page](/post-2.jpg)
+import { Image } from 'astro:assets';
+import postImage from '../../../public/post-2.jpg';
+
+<Image src={postImage} alt="Landing page" />
 
 <a href="https://erikgrinn.github.io/odin-landing-page/" target="_blank">landing page</a>
 

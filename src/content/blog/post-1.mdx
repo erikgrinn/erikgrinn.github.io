@@ -8,10 +8,12 @@ tags:
 seo:
   image:
     src: '/post-1.jpg'
-    alt: Power button
+    alt: Recipes
 ---
+import { Image } from 'astro:assets';
+import postImage from '../../../public/post-1.jpg';
 
-![Power button](/post-1.jpg)
+<Image src={postImage} alt="recipes" />
 
 <a href="https://erikgrinn.github.io/odin-recipes/" target="_blank">recipes</a>
 
