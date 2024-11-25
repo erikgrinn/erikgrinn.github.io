@@ -38,6 +38,10 @@ export type SiteConfig = {
 };
 
 const siteConfig: SiteConfig = {
+    // logo: {
+    //     src: '',
+    //     alt: 'Site logo'
+    // },
     title: 'Erik Grinn',
     // subtitle: 'Minimal Astro.js theme',
     description: 'Astro.js personal website',
