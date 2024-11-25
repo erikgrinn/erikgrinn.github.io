@@ -25,3 +25,5 @@
         "*.css": "tailwindcss",
     }
 }
+
+// note: *.mdx: mdx file association made in user (global?) settings to turn off copilot autocompletion
