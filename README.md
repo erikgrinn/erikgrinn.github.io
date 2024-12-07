@@ -40,4 +40,4 @@ You'll see the following folders and files:
 
 ## License
 
-Licensed under the [GPL-3.0](https://github.com/erikgrinn/my-website/blob/main/LICENSE) license.
+Licensed under the [GPL-3.0](https://github.com/erikgrinn/erikgrinn.github.io/blob/main/LICENSE) license.
