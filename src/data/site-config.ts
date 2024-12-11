@@ -89,7 +89,7 @@ const siteConfig: SiteConfig = {
     ],
     hero: {
         title: 'Hi There & Welcome to My Corner of the Web!',
-        text: "I'm **Erik Grinn**, an aspiring software engineer and/or web developer. I'm passionate about both creating intuitive interfaces and leveraging the data online to glean meaningful insights. I'm currently studying Computer Science at the Oregon State University and working on various projects in my free time. Within my blog, you'll find how my journey is going, what I'm learning, and what I'm building.",
+        text: "I'm **Erik Grinn**, an aspiring software engineer and web developer. I'm passionate about both creating intuitive interfaces and leveraging the data online to glean meaningful insights. I'm currently studying Computer Science at the Oregon State University and working on various projects in my free time. Within my blog, you'll find how my journey is going, what I'm learning, and what I'm building.",
         // image: {
         //     src: '/hero.jpeg',
         //     alt: 'A person sitting at a desk in front of a computer'
