@@ -1,0 +1,32 @@
+---
+import type { GetStaticPathsOptions, Page } from 'astro';
+import { type CollectionEntry, getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Pagination from '../../components/Pagination.astro';
+import CoursePreview from '../../components/CoursePreview.astro';
+// import Subscribe from '../../components/Subscribe.astro';
+import siteConfig from '../../data/site-config';
+import { sortItemsByDateDesc } from '../../utils/data-utils';
+
+export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
+    const courses = (await getCollection('courses')).sort(sortItemsByDateDesc);
+    return paginate(courses, { pageSize: siteConfig.coursesPerPage || 4 });
+}
+
+type Props = { page: Page<CollectionEntry<'courses'>> };
+
+const { page } = Astro.props;
+const course = page.data;
+---
+
+<BaseLayout
+    title="Courses"
+    description="Embark on a journey of personal insights and experiences through my blog"
+    image={{ src: '/dante-preview.jpg', alt: 'The preview of the site' }}
+    showHeader={false}
+>
+    <h1 class="mb-12 text-2xl leading-tight font-serif italic sm:mb-16 sm:text-4xl">Computer Science Courses</h1>
+    {course.map((course) => <CoursePreview course={course} class="mb-10 sm:mb-12" />)}
+    <Pagination page={page} class="my-16 sm:my-24" />
+    <!-- <Subscribe class="my-16 sm:my-24" /> -->
+</BaseLayout>

@@ -1,0 +1,45 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CoursePreview from '../../components/CoursePreview.astro';
+import { sortItemsByDateDesc } from '../../utils/data-utils';
+
+export async function getStaticPaths() {
+    const courses = (await getCollection('courses')).sort(sortItemsByDateDesc);
+    const courseCount = courses.length;
+    return courses.map((course, index) => ({
+        params: { slug: course.slug },
+        props: {
+            course,
+            prevCourse: index + 1 !== courseCount ? courses[index + 1] : null,
+            nextCourse: index !== 0 ? courses[index - 1] : null
+        }
+    }));
+}
+
+type Props = { course: CollectionEntry<'courses'>; prevCourse: CollectionEntry<'courses'>; nextCourse: CollectionEntry<'courses'> };
+
+const { course, prevCourse, nextCourse } = Astro.props;
+const { title, description, seo } = course.data;
+const { Content } = await course.render();
+---
+
+<BaseLayout title={seo?.title ?? title} description={seo?.description ?? description} image={seo?.image} pageType="article" showHeader={false}>
+    <article class="mb-16 sm:mb-24">
+        <header class="mb-8">
+            <h1 class="text-3xl leading-tight font-serif font-medium sm:text-5xl sm:leading-tight">{title}</h1>
+        </header>
+        <div class="max-w-none prose prose-dante sm:prose-lg">
+            <Content />
+        </div>
+    </article>
+    {
+        (prevCourse || nextCourse) && (
+            <div class="my-16 sm:my-24">
+                <h2 class="mb-12 text-xl font-serif italic sm:mb-16 sm:text-2xl">View Next</h2>
+                {nextCourse && <CoursePreview course={nextCourse} class="mb-10 sm:mb-12" headingLevel="h3" />}
+                {prevCourse && <CoursePreview course={prevCourse} class="mb-10 sm:mb-12" headingLevel="h3" />}
+            </div>
+        )
+    }
+</BaseLayout>
