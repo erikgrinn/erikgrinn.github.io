@@ -2,10 +2,9 @@
 import { type CollectionEntry, getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CoursePreview from '../../components/CoursePreview.astro';
-import { sortItemsByDateDesc } from '../../utils/data-utils';
 
 export async function getStaticPaths() {
-    const courses = (await getCollection('courses')).sort(sortItemsByDateDesc);
+    const courses = (await getCollection('courses'));
     const courseCount = courses.length;
     return courses.map((course, index) => ({
         params: { slug: course.slug },

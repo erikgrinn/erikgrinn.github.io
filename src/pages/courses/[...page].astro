@@ -6,10 +6,9 @@ import Pagination from '../../components/Pagination.astro';
 import CoursePreview from '../../components/CoursePreview.astro';
 // import Subscribe from '../../components/Subscribe.astro';
 import siteConfig from '../../data/site-config';
-import { sortItemsByDateDesc } from '../../utils/data-utils';
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
-    const courses = (await getCollection('courses')).sort(sortItemsByDateDesc);
+    const courses = (await getCollection('courses'));
     return paginate(courses, { pageSize: siteConfig.coursesPerPage || 4 });
 }
 
