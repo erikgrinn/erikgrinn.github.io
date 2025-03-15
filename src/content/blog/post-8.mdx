@@ -20,3 +20,71 @@ import postImage from '../../../public/post-8.jpg';
 <a href="https://erikgrinn.github.io/odin-restaurant-page/" target="_blank">restaurant page</a>
 
 A webpage that focuses on multiple tabs, with emphasis on keeping the header in-tact while replacing the body.
+This project is a simple restaurant webpage built using vanilla JavaScript, HTML, and CSS. It demonstrates key coding concepts such as modular JavaScript, DOM manipulation, and webpack for bundling assets.
+
+## Key Coding Concepts
+
+### Modular JavaScript
+The project is organized into multiple JavaScript modules, each responsible for a specific part of the webpage. This helps in keeping the codebase clean and maintainable. For example:
+- `src/home.js`: Handles the home page content.
+- `src/menu.js`: Handles the menu page content.
+- `src/about.js`: Handles the about page content.
+
+### DOM Manipulation
+The project heavily relies on DOM manipulation to dynamically create and update the content of the webpage. Elements are created using `document.createElement` and appended to the DOM using methods like `appendChild`. For example, in src/home.js:
+```js
+const heroTitle = document.createElement('h1');
+heroTitle.textContent = 'Welcome to Delicious Eats';
+hero.appendChild(heroTitle);
+```
+
+### Webpack
+Webpack is used to bundle JavaScript modules and other assets like CSS and images. The configuration is defined in webpack.config.js. Key features include:
+
+Entry point: ['src/index.js']
+Output: Bundled files are output to the dist directory.
+Loaders: CSS and HTML loaders are used to handle CSS and HTML files.
+Plugins: HtmlWebpackPlugin is used to generate the HTML file.
+Event Handling
+Event listeners are used to handle user interactions, such as clicking navigation buttons to switch between different sections of the webpage. For example, in src/index.js:
+```js
+homeBtn.addEventListener('click', () => {
+    contentDiv.innerHTML = '';
+    contentDiv.appendChild(homeDiv);
+    contentDiv.appendChild(homeImage);
+});
+```
+
+### CSS Styling
+The project uses an external CSS file src/styles.css to style the webpage. It includes custom properties (CSS variables) for consistent theming and media queries for responsive design.
+
+### Asset Management
+Images are imported and used in the JavaScript modules. Webpack's asset management capabilities are leveraged to handle these images. For example, in src/menu.js:
+```js
+import image1 from "./images/menu-dish-1.jpg";
+const menuImage1 = document.createElement("img");
+menuImage1.src = image1;
+```
+
+## Getting Started
+### Prerequisites
+Node.js and npm installed
+### Installation
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/odin-restaurant-page.git
+```
+2. Navigate to the project directory:
+```bash
+cd odin-restaurant-page
+```
+
+3. Install dependencies:
+```bash
+npm install
+```
+
+4. Deploy development server:
+```bash
+npm run dev
+```
