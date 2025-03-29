@@ -1,7 +1,7 @@
 ---
 title: CS 372 - Reliable Data Transfer
-description: Reliable Data Transfer
-publishDate: 'Feb 15 24'
+description: Reliable Data Transfer in Python
+publishDate: 'Feb 15 25'
 isFeatured: true
 seo:
   image:
@@ -13,9 +13,74 @@ import postImage from '../../../public/RDT.jpg';
 
 <Image src={postImage} alt="Project preview" />
 
-**Project Overview:**
+<br />
 
-This project involved implementing a reliable data transfer protocol. The course gave a decent amount of skeleton code...
+This file implements the `RDTLayer` class, which simulates a reliable data transfer (RDT) layer over an unreliable communication channel. The class is designed to handle issues such as packet loss, corruption, delays, and out-of-order delivery. Below is a summary of the key concepts and functionality, with a focus on the `processSend()` and `processReceiveAndSendRespond()` methods.
 
-```python
-import socket
+---
+
+## Key Concepts in `processSend()`
+
+The `processSend()` method is responsible for managing the sending of data segments. It handles flow control, retransmissions, and the creation of new segments. Key concepts include:
+
+### 1. **Flow Control**
+   - The method enforces a flow control mechanism using a `FLOW_CONTROL_WIN_SIZE` (15 characters). This ensures that the sender does not overwhelm the receiver by sending too much data at once.
+   - The `total_chars_sent` variable tracks the number of characters sent in the current iteration.
+
+### 2. **Retransmissions**
+   - **Checksum Errors**: If a segment is flagged with a checksum error (indicated by `acknum == 0`), it is retransmitted.
+   - **Timeouts**: Segments that have not been acknowledged within a specified number of iterations (`timeout_iterations`) are retransmitted.
+   - Retransmissions are handled by the `retransmitSegment()` helper function, which creates a new segment and sends it.
+
+### 3. **Unacknowledged Segments**
+   - Sent segments are stored in the `unacked_segments` dictionary, which maps sequence numbers (`seqnum`) to tuples containing the segment and the iteration it was sent.
+   - This dictionary is used to track which segments need to be retransmitted.
+
+### 4. **Segment Creation**
+   - New segments are created for unsent data chunks. The data is divided into chunks of size `DATA_LENGTH` (4 characters) or smaller, depending on the remaining flow control window.
+   - Each segment is assigned a sequence number (`seqnum`) and sent using the unreliable `sendChannel`.
+
+---
+
+## Key Concepts in `processReceiveAndSendRespond()`
+
+The `processReceiveAndSendRespond()` method is responsible for handling incoming segments and sending appropriate responses (ACKs or NAKs). Key concepts include:
+
+### 1. **Receiving Segments**
+   - Incoming segments are retrieved from the `receiveChannel` and sorted by their sequence numbers (`seqnum`) to ensure proper order.
+
+### 2. **Checksum Validation**
+   - Each segment's checksum is validated using the `checkChecksum()` method.
+   - If a checksum error is detected, a NAK (negative acknowledgment) is sent back to the sender, and the segment is not processed further.
+
+### 3. **Acknowledgment Management**
+   - **For Clients**: 
+     - ACKs are received and used to remove acknowledged segments from the `unacked_segments` dictionary.
+     - Cumulative ACKs are supported, meaning all segments with sequence numbers less than the received ACK number are considered acknowledged.
+   - **For Servers**:
+     - ACKs are sent for correctly received and in-order segments. The cumulative ACK number is set to the total size of the data received so far (`len(self.data_str)`).
+     - NAKs are sent for segments with checksum errors, and no ACKs are sent until the error is resolved.
+
+### 4. **In-Order Delivery**
+   - The server ensures that only in-order segments are delivered to the application layer. This is done by checking if the next expected sequence number (`self.totalSize`) exists in the `acked_segments` dictionary.
+
+### 5. **NAK Handling**
+   - The server tracks whether a NAK has been sent using the `sentNAK` flag. No ACKs are sent until the corrupted segment is retransmitted and received correctly.
+
+---
+
+## Summary of Key Variables
+
+- **`unacked_segments`**: Tracks unacknowledged segments on the client side.
+- **`acked_segments`**: Tracks acknowledged segments on the server side.
+- **`seqnum`**: Sequence number for the next segment to be sent.
+- **`acknum`**: Acknowledgment number for the next expected segment.
+- **`total_chars_sent`**: Tracks the number of characters sent in the current iteration.
+- **`data_str`**: The complete data received by the server, in order.
+- **`NAKsegments`**: Tracks sequence numbers of segments with checksum errors.
+
+---
+
+## Conclusion
+
+The `processSend()` and `processReceiveAndSendRespond()` methods implement a reliable data transfer protocol by addressing common issues in unreliable communication channels. These methods use flow control, retransmissions, cumulative acknowledgments, and checksum validation to ensure data integrity and proper delivery order.

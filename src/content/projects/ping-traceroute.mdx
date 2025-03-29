@@ -1,7 +1,7 @@
 ---
 title: CS 372 - Ping and Traceroute
-description: this
-publishDate: 'Mar 9 24'
+description: Python Program for Ping and Traceroute
+publishDate: 'Mar 9 25'
 isFeatured: true
 seo:
   image:
@@ -13,7 +13,152 @@ import postImage from '../../../public/ping-traceroute.jpg';
 
 <Image src={postImage} alt="Project preview" />
 
-**Project Overview:**
+This document provides an overview of the `IcmpHelperLibrary` class and its key methods, focusing on the following functions:
 
+1. `__validateIcmpReplyPacketWithOriginalPingData`
+2. `sendEchoRequest`
+3. `__sendIcmpTraceRoute`
+
+---
+
+## Overview of `IcmpHelperLibrary`
+
+The `IcmpHelperLibrary` class is designed to handle ICMP (Internet Control Message Protocol) operations, such as sending ping requests and performing traceroute operations. It includes nested classes for managing ICMP packets (`IcmpPacket`) and handling ICMP Echo Replies (`IcmpPacket_EchoReply`).
+
+---
+
+## Key Functions
+
+### 1. `__validateIcmpReplyPacketWithOriginalPingData`
+
+#### Purpose:
+This private method validates the received ICMP reply packet against the original ping request data to ensure the response is accurate.
+
+#### Key Steps:
+- **Identifier Check**: Compares the `Identifier` field of the reply packet with the original request.
+- **Sequence Number Check**: Compares the `Sequence Number` field of the reply packet with the original request.
+- **Data Check**: Compares the raw data in the reply packet with the original request data.
+- **Validation Result**: Combines the results of the above checks to determine if the response is valid.
+
+#### Debugging:
+- If debugging is enabled, it prints the expected and actual values for each field and whether they match.
+- If any field is invalid, it prints a detailed conflict message.
+
+---
+
+### 2. `sendEchoRequest`
+
+#### Purpose:
+This method sends an ICMP Echo Request (ping) to a target host and handles the response.
+
+#### Key Steps:
+1. **Target Validation**: Ensures the target host and its IP address are set.
+2. **Socket Setup**: Creates a raw socket for sending and receiving ICMP packets.
+3. **Packet Sending**: Sends the ICMP Echo Request packet to the target host.
+4. **Response Handling**:
+   - Waits for a response using `select`.
+   - Parses the received packet to determine the ICMP type and code.
+   - Handles different ICMP types:
+     - **Type 11 (Time Exceeded)**: Prints a message with the error description.
+     - **Type 3 (Destination Unreachable)**: Prints a message with the error description.
+     - **Type 0 (Echo Reply)**: Validates the reply packet using `__validateIcmpReplyPacketWithOriginalPingData` and prints the result.
+5. **Timeout Handling**: Prints a timeout message if no response is received within the specified time.
+
+#### Return Value:
+- Returns the Round-Trip Time (RTT) in milliseconds for successful Echo Replies (ICMP Type 0).
+- Returns `None` for other ICMP types or timeouts.
+
+#### Debugging:
+- If debugging is enabled, it prints the ICMP packet header and data in hexadecimal format.
+
+---
+
+### 3. `__sendIcmpTraceRoute`
+
+#### Purpose:
+This private method implements the traceroute functionality by incrementally increasing the Time-to-Live (TTL) value in ICMP packets to trace the route to a target host.
+
+#### Key Steps:
+1. **Initialization**:
+   - Starts with a TTL of 1.
+   - Sets a maximum number of hops (`max_hops`).
+2. **Packet Sending**:
+   - Builds an ICMP Echo Request packet for each TTL value.
+   - Sends the packet and waits for a response.
+3. **Response Handling**:
+   - If the response is an Echo Reply (ICMP Type 0), the target host is reached, and the traceroute ends.
+   - If the response is a Time Exceeded (ICMP Type 11), the TTL is incremented, and the process continues.
+4. **Termination**:
+   - Stops when the target host is reached or the maximum number of hops is exceeded.
+
+#### Debugging:
+- Prints the current TTL and whether the packet reached the target host.
+
+---
+
+## Supporting Classes
+
+### 1. `IcmpPacket`
+
+This nested class is responsible for constructing and managing ICMP packets.
+
+#### Key Features:
+- **Packet Construction**: Builds ICMP Echo Request packets with headers and data.
+- **Checksum Calculation**: Ensures the integrity of the packet using a checksum.
+- **Packet Sending**: Sends the constructed packet to the target host.
+
+---
+
+### 2. `IcmpPacket_EchoReply`
+
+This nested class handles ICMP Echo Reply packets.
+
+#### Key Features:
+- **Packet Parsing**: Extracts fields such as type, code, identifier, and sequence number from the received packet.
+- **Validation**: Compares the received packet's fields with the expected values.
+- **Result Printing**: Displays the results of the ping operation, including RTT and validation status.
+
+---
+
+## Public Methods
+
+### `sendPing(targetHost)`
+- Sends four ICMP Echo Requests to the specified target host.
+- Prints RTT statistics (min, max, average) and packet loss percentage.
+
+### `traceRoute(targetHost)`
+- Performs a traceroute to the specified target host.
+- Prints the route taken by the packets, including intermediate hops.
+
+---
+
+## Example Usage
+
+```python
+def main():
+    icmpHelperPing = IcmpHelperLibrary()
+
+    # Example: Send a ping to a target host
+    icmpHelperPing.sendPing("www.google.com")
+
+    # Example: Perform a traceroute to a target host
+    icmpHelperPing.traceRoute("www.google.com")
+
+if __name__ == "__main__":
+    main()
+```
+
+---
+
+## Error Descriptions
+
+The `getIcmpErrorDescription` method provides human-readable descriptions for ICMP error codes. Examples include:
+- `(3,0)`: "Net Unreachable"
+- `(3,1)`: "Host Unreachable"
+- `(11,0)`: "Time to Live exceeded in Transit"
+
+---
+
+This document summarizes the functionality of the `IcmpHelperLibrary` class and its key methods, providing a clear understanding of its ping and traceroute implementations.
 
 
