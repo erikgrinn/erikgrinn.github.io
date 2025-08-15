@@ -1,0 +1,39 @@
+---
+title: Cloud Resume
+excerpt: Cloud Resume
+publishDate: 'August 15 2025'
+isFeatured: true
+tags:
+  - HTML
+  - CSS
+  - JavaScript
+  - AWS
+seo:
+  image:
+    src: '/post-12.jpg'
+    alt: Cloud-Resume
+---
+import { Image } from 'astro:assets';
+import postImage from '../../../public/post-12.jpg';
+
+<Image src={postImage} alt="cloud-resume" />
+
+<a href="https://djhkgiteagyfc.cloudfront.net/" target="_blank">cloud-resume</a>
+
+## AWS Cloud Resume Challenge
+
+I recently completed the AWS Cloud Resume Challenge - a hands-on project that combines web development with cloud infrastructure. The challenge involves building a personal resume website using various AWS services.
+
+### What I Built:
+- **Static Website**: HTML, CSS, and JavaScript hosted on S3
+- **CDN**: CloudFront distribution for secure global content delivery
+- **API**: API Gateway to trigger the Lambda function
+- **Lambda**: Lambda function to increment and return the number of visits from the database
+- **Database**: DynamoDB to store visit counts
+- **Infrastructure as Code**: CloudFormation templates using YAML and SAM CLI
+- **CI/CD**: GitHub Actions for automated deployment
+
+### Key Takeaways:
+This project was an excellent introduction to AWS services and serverless architecture. It demonstrated how modern web applications can leverage cloud services for scalability, security, and cost-effectiveness.
+The visitor counter functionality required integrating multiple AWS services, giving me hands-on experience with the AWS ecosystem. Setting up the CI/CD pipeline taught me about automation and best practices for cloud deployments.
+Perfect practice for anyone looking to get started with AWS and cloud development!
