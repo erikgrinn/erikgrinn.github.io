@@ -56,13 +56,13 @@ const siteConfig: SiteConfig = {
             href: '/'
         },
         {
+            text: 'Georgia Tech',
+            href: '/gatech',
+        },
+        {
             text: 'Projects',
             href: '/projects'
         },
-        // {
-        //     text: 'Courses',
-        //     href: '/courses'
-        // },
         {
             text: 'Blog',
             href: '/blog'
