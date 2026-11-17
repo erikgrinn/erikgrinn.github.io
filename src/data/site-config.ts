@@ -55,10 +55,10 @@ const siteConfig: SiteConfig = {
             text: 'Home',
             href: '/'
         },
-        {
-            text: 'Georgia Tech',
-            href: '/gatech',
-        },
+        // {
+        //     text: 'Georgia Tech',
+        //     href: '/gatech',
+        // },
         {
             text: 'Projects',
             href: '/projects'
